@@ -11,7 +11,7 @@ class ProductDetailsSeeder extends Seeder
      */
     public function run()
     {
-    	factory(App\ProductDetails::class, 10)->create();
+    	factory(App\ProductDetails::class, 20)->create();
         /*factory(App\ProductDetails::class, 10)->create()->each(function($u) {
 		    $u->ProductDetails()->save(factory(App\ProductDetails::class)->make());
 		  });*/

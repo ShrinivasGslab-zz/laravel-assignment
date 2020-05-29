@@ -41,9 +41,39 @@
               <input type="text" class="form-control" name="sku"/>
           </div>
           <div class="form-group">
-              <label for="password">Status</label>
-              <input type="text" class="form-control" name="status"/>
+            <label for="status">Status</label>
+            <select class="form-control" id="status" name="status">
+              <option value="">--- Select Status ----</option>
+              <option value="inprogress">inprogress</option>
+              <option value="completed">completed</option>
+              <option value="Available">Available</option>
+            </select>
           </div>
+
+          <div class="form-group">
+              <label for="stock">stock</label>
+              <input type="text" class="form-control" name="stock"/>
+          </div>
+
+          <div class="form-group">
+            <label for="type">Type</label>
+            <select class="form-control" id="type" name="type">
+              <option value="">--- Select Type ----</option>
+              <option value="Fiber">Fiber</option>
+              <option value="Glass">Glass</option>
+              <option value="Plastic">Plastic</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="type">Size</label>
+            <select class="form-control" id="size" name="size">
+              <option value="">--- Select Size ----</option>
+              <option value="Small">Small</option>
+              <option value="Medium">Medium</option>
+              <option value="Large">Large</option>
+            </select>
+          </div>
+
           <button type="submit" class="btn btn-block btn-danger">Create Product</button>
       </form>
   </div>

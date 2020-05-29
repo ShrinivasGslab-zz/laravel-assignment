@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\ProductDetails;
 use Illuminate\Http\Request;
 use DB;
 
@@ -18,6 +19,7 @@ class ProductController extends Controller
         $product = DB::table('products')
             ->join('product_details', 'products.id', '=', 'product_details.product_id')
             ->select('products.id','products.name', 'products.sku', 'product_details.stock', 'product_details.type')
+            ->whereNull('products.deleted_at')
             ->get();
         return view('prodctindex', compact('product'));
     }
@@ -45,8 +47,14 @@ class ProductController extends Controller
             'description' => 'required|max:255',
             'sku' => 'required|numeric',
             'status' => 'required|max:255',
+            'stock' => 'required',
+            'type' => 'required',
+            'size' => 'required',
         ]);
-        $student = Product::create($storeData);
+        $product = Product::create($storeData);
+        $storeData['product_id'] = $product->id;
+        $productdetails = ProductDetails::create($storeData);
+        
 
         return redirect('/products')->with('completed', 'Product has been saved!');
     }
@@ -71,7 +79,8 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        return view('editprod', compact('product'));
+        $productdetails = ProductDetails::where('product_id', $id)->firstOrFail();
+        return view('editprod', compact('product','productdetails'));
     }
 
     /**
@@ -84,10 +93,17 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $updateData = $request->validate([
-            'name' => 'required|max:255',
+           'name' => 'required|max:255',
+            'description' => 'required|max:255',
             'sku' => 'required|numeric',
+            'status' => 'required|max:255',
+            'stock' => 'required',
+            'type' => 'required',
+            'size' => 'required',
         ]);
-        Product::whereId($id)->update($updateData);
+        $chunks = array_chunk($updateData,4, true);
+        Product::whereId($id)->update($chunks[0]);
+        ProductDetails::where('product_id', $id)->update($chunks[1]);
         return redirect('/products')->with('completed', 'Product has been updated');
     }
 

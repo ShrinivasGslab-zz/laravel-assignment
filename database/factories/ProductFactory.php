@@ -33,8 +33,9 @@ $factory->define(Product::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'description' => $faker->text(),
-        'status' => random_int(0,5),
-        'sku' => Str::random(10),
+        //'status' => random_int(0,5),
+        'status' => $faker->randomElement(['inprogress', 'completed', 'Available']),
+        'sku' => random_int(100000,999999),
         //'is_deleted' => Str::random(2),
         'created_at' => now(),
         'updated_at' => now(),
@@ -49,9 +50,11 @@ $factory->define(ProductDetails::class, function (Faker $faker) {
 
     return [
     	'product_id' => $faker->randomElement($products),
-        'stock' => random_int(0,1000)/10,
-        'size' => $faker->text(),
-        'type' => random_int(0,5),
+        'stock' => random_int(50,100),
+        //'size' => $faker->text(),
+        //'type' => random_int(0,5),
+        'size' => $faker->randomElement(['Small', 'Medium', 'Large']),
+        'type' => $faker->randomElement(['Fiber', 'Glass', 'Plastic']),
         'created_at' => now(),
         'updated_at' => now(),
         //'deleted_at' => now(),
